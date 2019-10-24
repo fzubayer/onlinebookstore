@@ -48,15 +48,11 @@
  
             </tr>
             <tr>
-                <td align="left" valign="top" width="41%">a Name<span style="color:red">*</span></td>
+                <td align="left" valign="top" width="41%">Name<span style="color:red">*</span></td>
  
                 <td width="57%"><input type="text" value="" name="emp_name" size="24"></td>
             </tr>
-            <tr>
-                <td align="left" valign="top" width="41%">a Number<span style="color:red">*</span></td>
-                <td width="57%">
-                    <input type="text" value="" name="num" onkeypress="return isNumberKey(event)" size="24"></td>
-            </tr>
+            
             <tr>
                 <td align="left" valign="top" width="41%">Address</td>
  
@@ -67,23 +63,20 @@
             <td width="57%">
                 <input type="text" value="" onkeypress="return isNumberKey(event)" name="txtFName1" size="24"></td>
             </tr>
-            <tr>
-                <td align="left" valign="top" width="41%">Location</td>
-                <td width="57%"><select name="mydropdown">
-<option value="Default">Default</option>
-<option value="dhaka">dhaka</option>
-
- 
-
- 
- 
-            </tr>
+           
             <tr>
                 <td align="left" valign="top" width="41%">Email<span style="color:red">*</span></td>
                 <td width="57%">
                     <input type="text" value="" name="email_id" size="24"></td>
             </tr>
+			
+            <tr>
+			<td>PASSWORD</td>
+			<td><%=user.password %></td>
+		    </tr>
  
+ 
+             
             <tr>
                 <td colspan="2">
                     <p align="center">

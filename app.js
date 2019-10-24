@@ -6,9 +6,11 @@ var cookieParser = require('cookie-parser');
 var ejs = require('ejs');
 var login = require('./controllers/login');
 var home = require('./controllers/home');
-var home = require('./controllers/emp');
-var user = require('./controllers/user');
+var registration = require('./controllers/registration');
+var customer = require('./controllers/home');
 var logout = require('./controllers/logout');
+var adminhome = require('./controllers/adminhome');
+
 var app = express();
 
 
@@ -21,7 +23,9 @@ app.use(expSession({secret:'my top secret value', saveUninitialized:true, resave
 app.use(cookieParser());
 app.use('/login', login);
 app.use('/home', home);
-app.use('/user', user);
+app.use('/customer', home);
+
+app.use('/adminhome', adminhome);
 app.use('/logout', logout);
 
 
