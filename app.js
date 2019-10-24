@@ -20,7 +20,7 @@ app.set('view engine', 'ejs');
 //MIDDLEWARE
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(expSession({secret:'my top secret value', saveUninitialized:true, resave: false}));
-app.use(cookieParser());
+//app.use(cookieParser());
 app.use('/login', login);
 app.use('/home', home);
 app.use('/customer', home);
@@ -29,9 +29,11 @@ app.use('/adminhome', adminhome);
 app.use('/logout', logout);
 
 
+
 //ROUTER
 app.get('/', function(request, response){
 	response.send('index page!');
+	console.log('...');
 });
 
 app.get('/test/your/:name/:id', function(request, response){
