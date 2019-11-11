@@ -1,77 +1,81 @@
 var express = require('express');
+var app = express();
+
+
+
 var userModel = require('./../models/user-model');
 
 var router = express.Router();
 
 
-router.get('/adduser', function(request, response){
-	response.render("user/adduser");
+
+router.get('*', function(request, response, next) {
+
+    if (request.cookies['username'] != null) {
+        next();
+    } else {
+        response.redirect('/logout');
+    }
+
 });
 
-router.get('/userList', function(request, response){
-		
-		userModel.getAll(function(results){
-			if(request.cookies['username'] != null){
-				response.render('user/index', {users: results});		
-			}else{
-				response.redirect('/logout');
-			}
-		});	
+
+router.get('/', function(request, response) {
+    console.log("customer index");
+    response.render('customer/index', { username: request.session.username, email: request.session.email });
 });
 
-router.get('/edit/:id', function(request, response){
+router.get('/history/:email', function(request, response) {
 
-	userModel.getById(request.params.id, function(result){
-		response.render('user/edit', result);
-	});
-	
+    customerhistoryModel.getByEmail(request.params.email, function(result) {
+        console.log(result);
+
+        response.render('customer/history', result);
+    });
+
+});
+router.get('/details/:email', function(request, response) {
+
+    userModel.getByEmail(request.params.email, function(result) {
+
+        response.render('customer/details', result);
+    });
+
 });
 
-router.post('/edit/:id', function(request, response){
+router.get('/edit/:email', function(request, response) {
+    console.log("edit get");
 
-	var user = {
-		username: request.body.username,
-		password: request.body.password,
-		id: request.params.id
-	};
+    userModel.getByEmail(request.params.email, function(result) {
+        response.render('customer/edit', result);
+    });
 
-	userModel.update(user, function(status){
-		
-		if(status){
-			response.redirect('/user/userlist');
-		}else{
-			response.redirect('/user/edit/'+request.params.id);
-		}
-	});
-	
 });
 
-router.get('/delete/:id', function(request, response){
+router.post('/edit/:email', function(request, response) {
+    console.log("edit post");
+    var user = {
+        username: request.body.username,
+        password: request.body.password,
+        email: request.params.email,
+        phone: request.body.phone,
+        address: request.body.address,
 
-	userModel.getById(sql, function(result){
-		response.render("user/delete", {user: result[0]});
-	})
+    };
+
+    userModel.update(user, function(status) {
+
+        if (status) {
+            response.redirect('../details/' + request.params.email);
+        } else {
+            response.redirect('/customer/edit/' + request.params.email);
+        }
+    });
+
 });
 
-router.post('/delete/:id', function(request, response){
 
-	userModel.delete(sql, function(status){	
-		if(status){
-			response.redirect("/user/userList");
-		}else{
-			response.redirect("/user/delete/"+request.params.id);	
-		}
-	})
-});
 
-router.get('/details/:id', function(request, response){
 
-	userModel.getById(request.params.id, function(result){
-		response.render("user/details", result);
-	})
-});
 
 module.exports = router;
-
-
-
